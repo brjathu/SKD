@@ -12,7 +12,7 @@ This code provides an implementation for SDK. This repository is implemented usi
 <p align="center"><img src="./utils/figs/training.png" width="900"></p>
 <p align="center">(b) SKD training pipeline.</p>
 
-### Dependencies
+## Dependencies
 This code requires the following:
 * matplotlib==3.2.1
 * mkl==2019.0
@@ -27,14 +27,14 @@ This code requires the following:
 
 run `pip3 install -r requirements.txt` to install all the dependencies. 
 
-### Download Data
+## Download Data
 The data we used here is preprocessed by the repo of [MetaOptNet](https://github.com/kjunelee/MetaOptNet), Please find the renamed versions of the files in below link by [RFS](https://github.com/WangYueFt/rfs).
 
 [[DropBox]](https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0)
     
-### Training
+## Training
 
-## Generation Zero
+### Generation Zero
 To run the Generation Zero experiment, run 
 
 `python3 train_supervised_ssl.py --tags cifarfs,may30 --model resnet12_ssl --model_path save/backup --dataset CIFAR-FS --data_root ../../Datasets/CIFAR_FS/ --n_aug_support_samples 5 --n_ways 5 --n_shots 1 --epochs 65 --lr_decay_epochs 60 --gamma 2.0`
@@ -42,18 +42,18 @@ To run the Generation Zero experiment, run
 WANDB will create unique names for each runs, and save the model names accordingly. Use this name for the teacher in the next experiment.
 
 
-## Generation One
+### Generation One
 To run the Generation One experiment, run 
 
 `python3 train_distillation.py --tags cifarfs,gen1,may30 --model_s resnet12_ssl --model_t resnet12_ssl --path_t save/backup/resnet12_ssl_CIFAR-FS_lr_0.05_decay_0.0005_trans_D_trial_1/model_firm-sun-1.pth --model_path save/backup --dataset CIFAR-FS --data_root ../../Datasets/CIFAR_FS/ --n_aug_support_samples 5 --n_ways 5 --n_shots 1 --epochs 65 --lr_decay_epochs 60 --gamma 0.1`
 
 
-## Evaluation
+### Evaluation
 
 `python3 eval_fewshot.py --model resnet12_ssl --model_path save/backup2/resnet12_ssl_toy_lr_0.05_decay_0.0005_trans_A_trial_1/model_firm-sun-1.pth --dataset toy --data_root ../../Datasets/CIFAR_FS/ --n_aug_support_samples 5 --n_ways 5 --n_shots 1`
 
 
-### Results
+## Results
 
 We perform extensive experiments on five datasets in a class-incremental setting, leading to significant improvements over the state of the art methods (e.g.,a  21.3%  boost on  CIFAR100  with  10  incremental tasks). Specifically, on large-scale datasets  that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on ImageNetand MS-Celeb datasets, respectively.
 
@@ -65,10 +65,10 @@ We perform extensive experiments on five datasets in a class-incremental setting
 <p align="center">(d) SKD performance on CIFAR-FS and FC100 datasets.</p>
 
 
-### We Credit
+## We Credit
 Thanks to https://github.com/WangYueFt/rfs, for the preliminary implementations.
 
-### Contact
+## Contact
 Jathushan Rajasegaran - jathushan.rajasegaran@inceptioniai.org or brjathu@gmail.com
 <br/>
 To ask questions or report issues, please open an issue on the [issues tracker](https://github.com/brjathu/SKD/issues).
