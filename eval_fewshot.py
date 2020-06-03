@@ -102,33 +102,17 @@ def main():
         model = model.cuda()
         cudnn.benchmark = True
     
-#     start = time.time()
-#     test_acc, test_std = meta_test(model, meta_testloader)
-#     test_time = time.time() - start
-#     print('test_acc: {:.4f}, test_std: {:.4f}, time: {:.1f}'.format(test_acc, test_std, test_time))
+    start = time.time()
+    test_acc, test_std = meta_test(model, meta_testloader)
+    test_time = time.time() - start
+    print('test_acc: {:.4f}, test_std: {:.4f}, time: {:.1f}'.format(test_acc, test_std, test_time))
 
-
-    for i in range(1):
-        val_acc, val_acc_top5, val_loss = embedding(val_loader, model, opt)
         
-        
-#         start = time.time()
-#         test_acc_feat, test_std_feat = meta_test(model, meta_testloader, use_logit=False)
-#         test_time = time.time() - start
-#         print('test_acc_feat: {:.4f}, test_std: {:.4f}, time: {:.1f}'.format(test_acc_feat, test_std_feat, test_time))
+    start = time.time()
+    test_acc_feat, test_std_feat = meta_test(model, meta_testloader, use_logit=False)
+    test_time = time.time() - start
+    print('test_acc_feat: {:.4f}, test_std: {:.4f}, time: {:.1f}'.format(test_acc_feat, test_std_feat, test_time))
     
-    
-#     start = time.time()
-#     test_acc, test_std = meta_test_tune(model, meta_testloader)
-#     test_time = time.time() - start
-#     print('test_acc: {:.4f}, test_std: {:.4f}, time: {:.1f}'.format(test_acc, test_std, test_time))
-
-#     start = time.time()
-#     test_acc_feat, test_std_feat = meta_test_tune(model, meta_testloader, use_logit=False)
-#     test_time = time.time() - start
-#     print('test_acc_feat: {:.4f}, test_std: {:.4f}, time: {:.1f}'.format(test_acc_feat, test_std_feat, test_time))
-
-
 
 if __name__ == '__main__':
     main()
