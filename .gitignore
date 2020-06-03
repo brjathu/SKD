@@ -4,7 +4,6 @@ output*/
 ckpts/
 *.pth
 *.t7
-*.png
 *.jpg
 tmp*.py
 # run*.sh

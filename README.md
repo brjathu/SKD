@@ -1,42 +1,117 @@
-# RFS
+# SDK : Self-supervised Knowledge Distillation for Few-shot Learning
+Official implementation of "SKD : Self-supervised Knowledge Distillation forFew-shot Learning". [(paper link)](https://arxiv.org/abs/2003.11652). 
 
-Representations for Few-Shot Learning (RFS). This repo covers the implementation of the following paper:  
+Real-world contains an overwhelmingly large number of object classes, learning all of which at once is impossible. Few shot learning is a promising learning paradigm due to its ability to learn out of order distributions quickly with only a few samples. Recent works show that simply learning a good feature embedding can outperform more sophisticated meta-learning and metric learning algorithms. In this paper, we propose a simple approach to improve the representation capacity of deep neural networks for few-shot learning tasks. We follow a two-stage learning process: First, we train a neural network to maximize the entropy of the feature embedding, thus creating an optimal output manifold using self-supervision as an auxiliary loss. In the second stage, we minimize the entropy on feature embedding by bringing self-supervised twins together, while constraining the manifold with student-teacher distillation. Our experiments show that, even in the first stage, auxiliary self-supervision can outperform current state-of-the-art methods, with further gains achieved by our second stage distillation process.
 
-**"Rethinking few-shot image classification: a good embedding is all you need?"** [Paper](https://arxiv.org/abs/2003.11539),  [Project Page](https://people.csail.mit.edu/yuewang/projects/rfs/) 
+This code provides an implementation for SDK. This repository is implemented using PyTorch and it includes code for running the few-shot learning experiments on CIFAR-FS, FC-100, miniImageNet and tieredImageNet datasets.
 
-If you find this repo useful for your research, please consider citing the paper  
-```
-@article{tian2020rethink,
-  title={Rethinking few-shot image classification: a good embedding is all you need?},
-  author={Tian, Yonglong and Wang, Yue and Krishnan, Dilip and Tenenbaum, Joshua B and Isola, Phillip},
-  journal={arXiv preprint arXiv:2003.11539},
-  year={2020}
-}
-```
+<p align="center"><img src="./utils/figs/main.png" width="400"></p>
+<p align="center">(a) SKD two stage learning, In Gen-0, self-supervision is used to estimate the true prediction manifold, equivariant to input transformations. Specifically, we enforce the model to predict the amount of input rotation using only the output logits. In Gen-1, we force the original sample outputs to be the same as in Gen-0 (dotted lines), while reducing its distance with its augmented versions to enhance discriminability.</p>
 
-## Installation
 
-This repo was tested with Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUDA 9.0. However, it should be compatible with recent PyTorch versions >=0.4.0
+<p align="center"><img src="./utils/figs/training.png" width="400"></p>
+<p align="center">(b) SKD training pipeline.</p>
 
-## Download Data
-The data we used here is preprocessed by the repo of [MetaOptNet](https://github.com/kjunelee/MetaOptNet), but we have
-renamed the file. Our version of data can be downloaded from here:
+### Dependencies
+This code requires the following:
+* matplotlib==3.2.1
+* mkl==2019.0
+* numpy==1.18.4
+* Pillow==7.1.2
+* scikit_learn==0.23.1
+* scipy==1.4.1
+* torch==1.5.0
+* torchvision==0.6.0
+* tqdm==4.46.0
+* wandb==0.8.36
+
+run `pip3 install -r requirements.txt` to install all the dependencies. 
+
+### Download Data
+The data we used here is preprocessed by the repo of [MetaOptNet](https://github.com/kjunelee/MetaOptNet), Please find the renamed versions of the files in below link. (by [RFS](https://github.com/WangYueFt/rfs))
 
 [[DropBox]](https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0)
+    
+### Training
 
-## Running
+## Generation Zero
+To run the Generation Zero experiment, run 
 
-Exemplar commands for running the code can be found in `scripts/run.sh`.
+`python3 train_supervised_ssl.py \
+--tags cifarfs,may30 \
+--model resnet12_ssl \
+--model_path save/backup \
+--dataset CIFAR-FS \
+--data_root ../../Datasets/CIFAR_FS/ \
+--n_aug_support_samples 5 \
+--n_ways 5 \
+--n_shots 1 \
+--epochs 65 \
+--lr_decay_epochs 60 \
+--gamma 2.0 &`
 
-For unuspervised learning methods `CMC` and `MoCo`, please refer to the [CMC](http://github.com/HobbitLong/CMC) repo.
-
-## Contacts
-For any questions, please contact:
-
-Yonglong Tian (yonglong@mit.edu)  
-Yue Wang (yuewang@csail.mit.edu)
-
-## Acknowlegements
-Part of the code for distillation is from [RepDistiller](http://github.com/HobbitLong/RepDistiller) repo.
+WANDB will create unique names for each runs, and save the model names accordingly. Use this name for the teacher in the next experiment.
 
 
+## Generation One
+To run the Generation One experiment, run 
+
+`python3 train_supervised_ssl.py \
+--tags cifarfs,gen0 \
+--model resnet12_ssl \
+--model_path save/backup \
+--dataset CIFAR-FS \
+--data_root ../../Datasets/CIFAR_FS/ \
+--n_aug_support_samples 5 \
+--n_ways 5 \
+--n_shots 1 \
+--epochs 65 \
+--lr_decay_epochs 60 \
+--gamma 2.0 &`
+
+
+## Evaluation
+
+`python3 eval_fewshot.py \
+--model resnet12_ssl \
+--model_path save/backup2/resnet12_ssl_toy_lr_0.05_decay_0.0005_trans_A_trial_1/model_upbeat-dew-17.pth \
+--dataset toy \
+--data_root ../../Datasets/CIFAR_FS/ \
+--n_aug_support_samples 5 \
+--n_ways 5 \
+--n_shots 1`
+
+
+### Results
+
+We perform extensive experiments on five datasets in a class-incremental setting, leading to significant improvements over the state of the art methods (e.g.,a  21.3%  boost on  CIFAR100  with  10  incremental tasks). Specifically, on large-scale datasets  that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on ImageNetand MS-Celeb datasets, respectively.
+
+<p align="center"><img src="./utils/figs/results1.png" width="800"></p>
+<p align="center">(c) SKD performance on miniImageNet and tieredImageNet.</p>
+<br/>
+<br/>
+<p align="center"><img src="./utils/figs/results2.png" width="800"></p>
+<p align="center">(d) SKD performance on CIFAR-FS and FC100 datasets.</p>
+
+
+### We Credit
+Thanks to https://github.com/WangYueFt/rfs, for the preliminary implementations.
+
+### Contact
+Jathushan Rajasegaran - jathushan.rajasegaran@inceptioniai.org or brjathu@gmail.com
+<br/>
+To ask questions or report issues, please open an issue on the [issues tracker](https://github.com/brjathu/SKD/issues).
+<br/>
+Discussions, suggestions and questions are welcome!
+
+
+<!-- ## Citation
+```
+@article{rajasegaran2020itaml,
+  title={iTAML : An Incremental Task-Agnostic Meta-learning Approach},
+  author={Rajasegaran, Jathushan and Khan, Salman and Hayat, Munawar and Khan, Fahad Shahbaz and Shah, Mubarak},
+  journal={The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  month = {June},
+  year = {2020}
+}
+``` -->
