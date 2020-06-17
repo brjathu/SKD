@@ -54,7 +54,7 @@ To perform the Generation One experiment, run:
 
 ## Results
 
-We perform extensive experiments on four datasets in a few-shot learning setting, leading to significant improvements over the state of the art methods (e.g.,a  21.3%  boost on  CIFAR100  with  10  incremental tasks). Specifically, on large-scale datasets  that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on ImageNetand MS-Celeb datasets, respectively.
+We perform extensive experiments on four datasets in a few-shot learning setting, leading to significant improvements over the state of the art methods.
 
 <p align="center"><img src="./utils/figs/results1.png" width="600"></p>
 <p align="center">(c) SKD performance on miniImageNet and tieredImageNet.</p>
