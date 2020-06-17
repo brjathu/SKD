@@ -8,7 +8,7 @@ This official code provides an implementation for our SKD. This repository is im
 <p align="center"><img src="./utils/figs/main.png" width="450"></p>
 <p align="center"><b>(a)</b> SKD has two stage learning. In <code>Gen-0</code>, self-supervision is used to estimate the true prediction manifold, equivariant to input transformations. Specifically, we enforce the model to predict the amount of input rotation using only the output logits. In <code>Gen-1</code>, we force the original sample outputs to be the same as in <code>Gen-0</code> (dotted lines), while reducing its distance with its augmented versions to enhance discriminability.</p>
 
-<p align="center"><img src="./utils/figs/training.png" width="900"></p>
+<p align="center"><img src="./utils/figs/training.png" width="800"></p>
 <p align="center"><b>(b)</b> SKD training pipeline.</p>
 
 ## Dependencies
