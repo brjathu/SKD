@@ -29,12 +29,12 @@ run `pip3 install -r requirements.txt` to install all the dependencies.
 ## Download Data
 The data we used here is preprocessed by the repo of [MetaOptNet](https://github.com/kjunelee/MetaOptNet), Please find the renamed versions of the files in below link by [RFS](https://github.com/WangYueFt/rfs).
 
-[[DropBox]](https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0)
+[[DropBox Data Packages Link]](https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0)
     
 ## Training
 
 ### Generation Zero
-To run the Generation Zero experiment, run 
+To perform the Generation Zero experiment, run: 
 
 `python3 train_supervised_ssl.py --tags cifarfs,may30 --model resnet12_ssl --model_path save/backup --dataset CIFAR-FS --data_root ../../Datasets/CIFAR_FS/ --n_aug_support_samples 5 --n_ways 5 --n_shots 1 --epochs 65 --lr_decay_epochs 60 --gamma 2.0`
 
@@ -42,7 +42,7 @@ WANDB will create unique names for each runs, and save the model names according
 
 
 ### Generation One
-To run the Generation One experiment, run 
+To perform the Generation One experiment, run: 
 
 `python3 train_distillation.py --tags cifarfs,gen1,may30 --model_s resnet12_ssl --model_t resnet12_ssl --path_t save/backup/resnet12_ssl_CIFAR-FS_lr_0.05_decay_0.0005_trans_D_trial_1/model_firm-sun-1.pth --model_path save/backup --dataset CIFAR-FS --data_root ../../Datasets/CIFAR_FS/ --n_aug_support_samples 5 --n_ways 5 --n_shots 1 --epochs 65 --lr_decay_epochs 60 --gamma 0.1`
 
@@ -54,7 +54,7 @@ To run the Generation One experiment, run
 
 ## Results
 
-We perform extensive experiments on five datasets in a class-incremental setting, leading to significant improvements over the state of the art methods (e.g.,a  21.3%  boost on  CIFAR100  with  10  incremental tasks). Specifically, on large-scale datasets  that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on ImageNetand MS-Celeb datasets, respectively.
+We perform extensive experiments on four datasets in a few-shot learning setting, leading to significant improvements over the state of the art methods (e.g.,a  21.3%  boost on  CIFAR100  with  10  incremental tasks). Specifically, on large-scale datasets  that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on ImageNetand MS-Celeb datasets, respectively.
 
 <p align="center"><img src="./utils/figs/results1.png" width="600"></p>
 <p align="center">(c) SKD performance on miniImageNet and tieredImageNet.</p>
@@ -75,13 +75,12 @@ To ask questions or report issues, please open an issue on the [issues tracker](
 Discussions, suggestions and questions are welcome!
 
 
-<!-- ## Citation
+## Citation
 ```
-@article{rajasegaran2020itaml,
-  title={iTAML : An Incremental Task-Agnostic Meta-learning Approach},
+@article{rajasegaran2020self,
+  title={Self-supervised Knowledge Distillation for Few-shot Learning},
   author={Rajasegaran, Jathushan and Khan, Salman and Hayat, Munawar and Khan, Fahad Shahbaz and Shah, Mubarak},
-  journal={The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-  month = {June},
+  journal={arxiv},
   year = {2020}
 }
-``` -->
+```
