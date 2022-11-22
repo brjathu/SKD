@@ -1,7 +1,7 @@
 matplotlib==3.2.1
 mkl==2019.0
 numpy==1.18.4
-Pillow==7.1.2
+Pillow==9.3.0
 scikit_learn==0.23.1
 scipy==1.4.1
 torch==1.5.0
