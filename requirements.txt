@@ -3,7 +3,7 @@ mkl==2019.0
 numpy==1.18.4
 Pillow==7.1.2
 scikit_learn==0.23.1
-scipy==1.4.1
+scipy==1.10.0
 torch==1.5.0
 torchvision==0.6.0
 tqdm==4.46.0
